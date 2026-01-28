@@ -84,12 +84,35 @@
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
+    gap: 10px;
 }
 
 .product-price {
     font-size: 24px;
     font-weight: 700;
     color: var(--primary-color);
+}
+
+.btn-buy {
+    background-color: #25d366;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-buy:hover {
+    background-color: #1ea853;
+    transform: scale(1.05);
+}
+
+.btn-buy:active {
+    transform: scale(0.98);
 }
 
 .pagination {

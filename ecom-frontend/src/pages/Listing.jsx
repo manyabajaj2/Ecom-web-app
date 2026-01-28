@@ -10,6 +10,7 @@ const Listing = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [total, setTotal] = useState(0)
     const limit = 12
+    const WHATSAPP_NUMBER = process.env.REACT_APP_WHATSAPP_NUMBER
 
     useEffect(() => {
         fetchProducts()
@@ -28,6 +29,30 @@ const Listing = () => {
             console.error('Error fetching products:', err)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleWhatsAppClick = (product) => {
+        const productLink = `${window.location.origin}/product/${product._id}`
+        const message = `Interested. ${productLink}`
+        const encodedMessage = encodeURIComponent(message)
+        const whatsappNumber = process.env.REACT_APP_WHATSAPP_NUMBER || process.env.Whatsapp_Number
+
+        if (!whatsappNumber) {
+            alert('WhatsApp number not configured. Please contact support.')
+            return
+        }
+
+        // Use the whatsapp:// protocol for desktop/mobile app
+        const whatsappAppUrl = `whatsapp://send?phone=${whatsappNumber}&text=${encodedMessage}`
+        
+        // For mobile, try the standard protocol first
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Mobile device - use app URL directly
+            window.location.href = whatsappAppUrl
+        } else {
+            // Desktop - open app with whatsapp:// scheme
+            window.location.href = whatsappAppUrl
         }
     }
 
@@ -66,6 +91,13 @@ const Listing = () => {
                                                 <p className="product-desc">{product.desc}</p>
                                                 <div className="product-footer">
                                                     <span className="product-price">₹{product.price?.toFixed(2)}</span>
+                                                    <button
+                                                        className="btn btn-buy"
+                                                        onClick={() => handleWhatsAppClick(product)}
+                                                        title="Contact on WhatsApp"
+                                                    >
+                                                        BUY
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
