@@ -45,7 +45,7 @@ const Listing = () => {
 
         // Use the whatsapp:// protocol for desktop/mobile app
         const whatsappAppUrl = `whatsapp://send?phone=${whatsappNumber}&text=${encodedMessage}`
-        
+
         // For mobile, try the standard protocol first
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             // Mobile device - use app URL directly
