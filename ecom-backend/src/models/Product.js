@@ -16,9 +16,18 @@ const productSchema = new mongoose.Schema(
         },
         imageurl: {
             type: String,
-            required: true,
             trim: true,
             maxlength: 2048,
+        },
+        images: {
+            type: [String],
+            default: [],
+            validate: {
+                validator: function (arr) {
+                    return Array.isArray(arr);
+                },
+                message: 'Images must be an array'
+            }
         },
         price: {
             type: Number,

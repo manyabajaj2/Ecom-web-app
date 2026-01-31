@@ -50,17 +50,21 @@ async function getProducts(req, res) {
 }
 
 // POST /products
-// Body: { name, desc, imageurl, price, "access-key": "..." }
+// Body: { name, desc, imageurl, images: [], price, "access-key": "..." }
 async function createProduct(req, res) {
     try {
         if (!requireAccessKey(req, res)) return;
 
-        const { name, desc, imageurl, price } = req.body || {};
+        const { name, desc, imageurl, images, price } = req.body || {};
+
+        // Use images array if provided, otherwise use single imageurl for backward compatibility
+        const imageList = images && Array.isArray(images) && images.length > 0 ? images : (imageurl ? [imageurl] : []);
 
         const product = await Product.create({
             name,
             desc,
-            imageurl,
+            imageurl: imageurl || (imageList.length > 0 ? imageList[0] : ''),
+            images: imageList,
             price,
         });
 
